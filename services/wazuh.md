@@ -9,13 +9,13 @@ dashboard: https://100.94.110.39:8443
 # Wazuh
 
 > **Purpose:** Centralized security monitoring — SCA, FIM, and log/authentication event monitoring
-> **Status:** 🟢 Operational (deployed, agents not yet installed)
+> **Status:**  Operational (deployed, agents not yet installed)
 > **Category:** Security / Monitoring
 > **Dashboard:** `https://100.94.110.39:8443` (Tailscale only, not proxied through Caddy yet)
 
 ---
 
-## 📌 Overview
+##  Overview
 
 Wazuh is an open-source security monitoring platform made up of three components running together in this deployment:
 
@@ -27,7 +27,7 @@ Deployed as an all-in-one, single-node stack in its own isolated Docker Compose 
 
 ---
 
-## 🎯 Purpose
+##  Purpose
 
 - Central security monitoring across homelab hosts
 - Security Configuration Assessment (SCA)
@@ -38,7 +38,7 @@ Deployed as an all-in-one, single-node stack in its own isolated Docker Compose 
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```text
 Homelab hosts (agents — none installed yet)
@@ -84,7 +84,7 @@ Conclusion: no pause and no hardware upgrade were needed to resolve this. The ev
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 - Internal TLS certs generated via Wazuh's official `indexer-certs-creator` tool (built as a local Docker image, run as a one-off container against `single-node/config/certs.yml`, output written to `single-node/config/wazuh_indexer_ssl_certs/`)
 - Default credentials replaced before first launch:
@@ -102,7 +102,7 @@ Conclusion: no pause and no hardware upgrade were needed to resolve this. The ev
 
 ---
 
-## 🔌 Ports
+##  Ports
 
 | Service | Host Port | Container Port | Purpose |
 |---|---|---|---|
@@ -132,7 +132,7 @@ Conclusion: no pause and no hardware upgrade were needed to resolve this. The ev
 
 ---
 
-## 🛠️ Common Failure Modes / Troubleshooting
+##  Common Failure Modes / Troubleshooting
 
 - **`Error 5007 - Insecure user password provided`** (manager container exits on startup): the `API_PASSWORD` value in `docker-compose.yml` doesn't meet Wazuh's complexity requirements. Fix the password, then `docker compose down && docker compose up -d` (don't just `up -d` again on top of a crashed container — start clean)
 - **Port bind failure on dashboard startup:** something else on the host already holds port 443 (in this case, Caddy). Remap the dashboard's host port in `docker-compose.yml`
@@ -153,11 +153,11 @@ Conclusion: no pause and no hardware upgrade were needed to resolve this. The ev
 
 - Config and certs live in `~/wazuh-docker/single-node/` — back this whole directory up (not yet included in a formal backup routine as of this writing — known gap)
 - Data lives in named Docker volumes (`wazuh-indexer-data`, `wazuh_logs`, etc.) — also not yet in a backup routine
-- To fully tear down and rebuild from scratch: `docker compose down -v` (⚠️ the `-v` flag deletes the named volumes too — only use this if you intend to lose all indexed data and start over)
+- To fully tear down and rebuild from scratch: `docker compose down -v` ( the `-v` flag deletes the named volumes too — only use this if you intend to lose all indexed data and start over)
 
 ---
 
-## 🔒 Security Controls
+##  Security Controls
 
 - Not exposed to the public internet — reachable only via Tailscale (or LAN) to the Docker VM
 - Default indexer and manager API credentials replaced before first launch
@@ -166,7 +166,7 @@ Conclusion: no pause and no hardware upgrade were needed to resolve this. The ev
 
 ---
 
-## ✅ Next Steps
+##  Next Steps
 
 - [x] Install a Wazuh agent (Docker VM itself) — done, confirmed active and reporting
 - [ ] Verify FIM (File Integrity Monitoring) is active and tune watched directories
