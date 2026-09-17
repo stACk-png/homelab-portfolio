@@ -1,22 +1,27 @@
-# Homelab — Security Monitoring & Infrastructure Project
+# Homelab
 
-A self-hosted homelab built on Proxmox, focused on hands-on defensive security skills: SIEM deployment, log/FIM/SCA monitoring, network segmentation, and infrastructure hardening. Built as both a learning environment and a portfolio project supporting a SOC Analyst career path (HTB Academy SOC Analyst path → CDSA certification).
+This is my self-hosted homelab, running on a single Proxmox box at home. I started it to get real, hands-on practice with the stuff my cybersecurity classes only cover in theory — deploying and hardening actual services, running a SIEM, and dealing with the kind of things that break in ways no textbook warns you about.
 
-## Highlights
+I'm a sophomore cybersecurity major at Robert Morris University. This repo is where I document what I've built and, more importantly, what's gone wrong and how I figured it out.
 
-- Deployed and hardened a **Wazuh SIEM stack** (manager, indexer, dashboard) in Docker, including generating internal PKI/TLS certificates, rotating all default credentials, and resolving a port conflict with an existing reverse proxy
-- Diagnosed and resolved a **disk-exhaustion incident** caused by a misbehaving security module — ruled out RAM/hardware limits, isolated the true root cause to a specific misconfigured feed updater, and fixed it without adding hardware
-- Diagnosed and resolved an **SSH lockout incident** — traced a silent authentication hang through client/server logs, network path analysis (Tailscale relay vs. direct P2P), and ultimately to a stale cached credential, without ever weakening the account's security posture
-- Hardened SSH access (key-only auth, `IdentitiesOnly`, per-host key scoping) and verified server-side hardening (password auth disabled, root login checks)
-- Built and operates a segmented Docker environment: reverse proxy (Caddy), metrics stack (Prometheus/Grafana), secrets management (Vaultwarden), and the SIEM stack, isolated into separate Docker networks
-- Maintains structured documentation for every service (architecture, configuration, failure modes, recovery steps) as living infrastructure docs, not just setup notes
+## What's running
+
+- **[Wazuh](services/wazuh.md)** — SIEM. Log monitoring, file integrity monitoring, security config checks.
+- **[Caddy](services/caddy.md)** — reverse proxy in front of everything.
+- **[Prometheus](services/prometheus.md)** — metrics collection.
+- **[Grafana](services/grafana.md)** — dashboards for those metrics.
+- **[Portainer](services/portainer.md)** — Docker container management UI.
+- **[Vaultwarden](services/vaultwarden.md)** — self-hosted password manager.
+- **[Scrutiny](services/scrutiny.md)** — hard drive health monitoring.
+
+Also running Jellyfin and Nextcloud on the same host, but those aren't security-related so I haven't written them up here.
 
 ## Architecture
 
 ```text
 Internet
    |
-Home Router → TP-Link travel router → HP EliteDesk 800 G2 Mini (Proxmox VE)
+Home Router -> TP-Link travel router -> HP EliteDesk 800 G2 Mini (Proxmox VE)
                                               |
                     +-------------------------+-------------------------+
                     |                         |                         |
@@ -29,26 +34,19 @@ Caddy         Grafana/Prometheus   Vaultwarden      Wazuh (manager,
  proxy)
 ```
 
-Remote access via **Tailscale** (direct peer-to-peer), used from an off-network laptop over a mobile hotspot during this project — see [incidents/ssh-agent-lockout.md](incidents/ssh-agent-lockout.md) for a real-world case where that remote-access path caused a genuinely tricky diagnostic problem.
-
-## Services
-
-Each service has its own documentation page covering purpose, configuration, dependencies, ports, common failure modes, and recovery steps:
-
-- [Wazuh (SIEM)](services/wazuh.md)
-- More services to be added as documentation is ported over
+I access everything remotely over Tailscale, usually from my laptop tethered to my phone. That remote-access setup actually caused one of the trickier problems I ran into — see the SSH incident below.
 
 ## Incidents
 
-Real troubleshooting writeups — symptom, investigation, root cause, fix, and prevention. Kept separate from service docs because these tell the "how I actually solved it" story that a static config reference doesn't capture:
+These are writeups of actual problems I ran into and how I tracked them down. I'm keeping these separate from the service docs because they tell the "how I actually solved it" story, not just how something is configured.
 
-- [SSH Agent Lockout](incidents/ssh-agent-lockout.md) — a silent SSH hang traced through client logs, server logs, and network-path analysis to a stale cached passphrase
-- [Wazuh Disk Exhaustion](incidents/wazuh-disk-exhaustion.md) — a full disk that looked like a hardware limitation, actually caused by a single misbehaving module
+- [SSH Agent Lockout](incidents/ssh-agent-lockout.md) — SSH just hung, no error, for a while I had no idea why.
+- [Wazuh Disk Exhaustion](incidents/wazuh-disk-exhaustion.md) — thought I'd run out of disk for real, turned out to be a single misbehaving module.
 
 ## Stack
 
-Proxmox VE · Docker · Tailscale · Caddy · Wazuh · Grafana · Prometheus · Vaultwarden · Portainer · Scrutiny
+Proxmox VE, Docker, Tailscale, Caddy, Wazuh, Grafana, Prometheus, Vaultwarden, Portainer, Scrutiny
 
 ## Status
 
-Actively maintained, in progress. Current focus: Wazuh SCA/FIM configuration and expanding agent coverage to additional hosts.
+Still actively working on this. Right now I'm setting up SCA and FIM in Wazuh and adding more agents.
