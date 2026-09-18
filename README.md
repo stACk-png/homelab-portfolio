@@ -13,6 +13,7 @@ I'm a sophomore cybersecurity major at Robert Morris University. This repo is wh
 - **[Portainer](services/portainer.md)** — Docker container management UI.
 - **[Vaultwarden](services/vaultwarden.md)** — self-hosted password manager.
 - **[Scrutiny](services/scrutiny.md)** — hard drive health monitoring.
+- **[Pi-hole](services/pihole.md)** — DNS-level ad/tracker blocking, on a separate Raspberry Pi.
 
 Also running Jellyfin and Nextcloud on the same host, but those aren't security-related so I haven't written them up here.
 
@@ -22,11 +23,11 @@ Also running Jellyfin and Nextcloud on the same host, but those aren't security-
 Internet
    |
 Home Router -> TP-Link travel router -> HP EliteDesk 800 G2 Mini (Proxmox VE)
-                                              |
-                    +-------------------------+-------------------------+
-                    |                         |                         |
-              Docker VM                 Jellyfin (LXC)             Nextcloud
-                    |
+   |                                          |
+Raspberry Pi 4               +-------------------------+-------------------------+
+(Pi-hole)                    |                         |                         |
+                        Docker VM                 Jellyfin (LXC)             Nextcloud
+                              |
    +----------------+----------------+------------------+
    |                |                |                  |
 Caddy         Grafana/Prometheus   Vaultwarden      Wazuh (manager,
@@ -42,6 +43,8 @@ These are writeups of actual problems I ran into and how I tracked them down. I'
 
 - [SSH Agent Lockout](incidents/ssh-agent-lockout.md) — SSH just hung, no error, for a while I had no idea why.
 - [Wazuh Disk Exhaustion](incidents/wazuh-disk-exhaustion.md) — thought I'd run out of disk for real, turned out to be a single misbehaving module.
+- [Proxmox Memory Reading](incidents/proxmox-memory-reading.md) — Proxmox said the VM was almost out of RAM. It wasn't.
+- [Wazuh Agent Enrollment](incidents/wazuh-agent-enrollment.md) — my first agent wouldn't connect, for two completely unrelated reasons.
 
 ## Stack
 
