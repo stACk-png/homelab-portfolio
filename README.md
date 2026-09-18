@@ -1,6 +1,6 @@
 # Homelab
 
-This is my self-hosted homelab, running on a single Proxmox box at home. I started it to get real, hands-on practice with the stuff my cybersecurity classes only cover in theory — deploying and hardening actual services, running a SIEM, and dealing with the kind of things that break in ways no textbook warns you about.
+This is my self-hosted homelab, running on a single Proxmox box at home. I started it to get real hands-on experience to gain cyber skills also to completely understand what i was learning in my classes,deploying and hardening actual services, running a SIEM, and dealing with the kind of things that break in ways no textbook warns you about. I also used AI (Claude) as a guide throughout this project to explain concepts I didn't know yet, walk through unfamiliar tools, and help me think through problems but every command was run by me, and every fix was something I understood and applied myself, not copy-pasted blind.
 
 I'm a sophomore cybersecurity major at Robert Morris University. This repo is where I document what I've built and, more importantly, what's gone wrong and how I figured it out.
 
