@@ -58,6 +58,6 @@ Enrolled and started cleanly after that — confirmed both from the agent's own 
 
 ## Prevention / Lessons
 
-- An install-time environment variable isn't guaranteed to land in the config the way you'd expect — worth checking the actual config file after install rather than assuming it worked.
-- A package repo pinned to a major version range (`4.x`) doesn't mean it's pinned to *your* version — it'll serve the newest release in that range. Manager and agent versions need to match (or agent ≤ manager), which means checking `apt-cache madison` and installing an exact version explicitly, not just `apt install <package>`.
+- An install-time environment variable isn't guaranteed to land in the config the way you'd expect worth checking the actual config file after install rather than assuming it worked.
+- A package repo pinned to a major version range (`4.x`) doesn't mean it's pinned to *your* version it'll serve the newest release in that range. Manager and agent versions need to match (or agent ≤ manager), which means checking `apt-cache madison` and installing an exact version explicitly, not just `apt install <package>`.
 - Two different bugs producing the same visible symptom ("agent installed but manager doesn't see it") is a good reminder to actually read the agent's own log each time, rather than assuming a fix that solved the first problem also solved the second.
