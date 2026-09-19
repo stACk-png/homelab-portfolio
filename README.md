@@ -35,7 +35,7 @@ Caddy         Grafana/Prometheus   Vaultwarden      Wazuh (manager,
  proxy)
 ```
 
-I access everything remotely over Tailscale, usually from my laptop tethered to my phone. That remote-access setup actually caused one of the trickier problems I ran into — see the SSH incident below.
+I access everything remotely over Tailscale, usually from my laptop tethered to my phone. That remote-access setup actually caused one of the trickier problems I ran into see the SSH incident below.
 
 ## Incidents
 
