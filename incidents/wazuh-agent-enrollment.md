@@ -54,7 +54,7 @@ sudo apt install wazuh-agent=4.9.0-1
 
 (the exact version string came from what `apt-cache madison` actually listed, not guessed)
 
-Enrolled and started cleanly after that — confirmed both from the agent's own log and from the manager's `manage_agents -l` finally showing it.
+Enrolled and started cleanly after that confirmed both from the agent's own log and from the manager's `manage_agents -l` finally showing it.
 
 ## Prevention / Lessons
 
