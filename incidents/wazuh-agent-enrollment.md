@@ -2,14 +2,14 @@
 
 ## Summary
 
-Once the Wazuh manager was stable, I installed my first agent — on the Docker VM itself, monitoring its own host, as a first test before rolling out to other machines. The agent installed and its local service showed as running, but the manager never saw it. Getting it actually connected took finding and fixing two unrelated problems, one after the other, that both happened to produce the same "not connected" symptom.
+Once the Wazuh manager was stable, I installed my first agent on the Docker VM itself, monitoring its own host, as a first test before rolling out to other machines. The agent installed and its local service showed as running, but the manager never saw it. Getting it actually connected took finding and fixing two unrelated problems, one after the other, that both happened to produce the same "not connected" symptom.
 
 ## Symptoms
 
 - `sudo systemctl status wazuh-agent` showed `active (running)` — the local agent process looked healthy
 - The manager's own agent list (`manage_agents -l`) never showed the new agent at all
 
-## Investigation — Bug 1
+## Investigation Bug 1
 
 Checked the agent's own log for what it was actually doing:
 
@@ -24,7 +24,7 @@ ERROR: (4112): Invalid server address found: 'MANAGER_IP'
 ERROR: (1215): No client configured. Exiting.
 ```
 
-The literal placeholder text `MANAGER_IP` was sitting in the config where a real IP address should have been. I'd passed `WAZUH_MANAGER='127.0.0.1'` as an environment variable at install time, expecting the installer to write that value into `ossec.conf` — it didn't take.
+The literal placeholder text `MANAGER_IP` was sitting in the config where a real IP address should have been. I'd passed `WAZUH_MANAGER='127.0.0.1'` as an environment variable at install time, expecting the installer to write that value into `ossec.conf` it didn't take.
 
 ### Fix
 
@@ -41,7 +41,7 @@ Agent started locally without error this time, but the manager still didn't show
 
 ### Root Cause
 
-The apt repo I'd added (`https://packages.wazuh.com/4.x/apt/`) serves whatever the *latest* 4.x release currently is — not specifically version 4.9.0, which is what my manager was running. A plain `apt install wazuh-agent` had pulled in a newer agent version than the manager, and Wazuh enforces that agents can't be ahead of their manager (they can be older, just not newer).
+The apt repo I'd added (`https://packages.wazuh.com/4.x/apt/`) serves whatever the *latest* 4.x release currently is not specifically version 4.9.0, which is what my manager was running. A plain `apt install wazuh-agent` had pulled in a newer agent version than the manager, and Wazuh enforces that agents can't be ahead of their manager (they can be older, just not newer).
 
 ### Fix
 
