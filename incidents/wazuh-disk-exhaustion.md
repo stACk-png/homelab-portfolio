@@ -35,7 +35,7 @@ Wazuh's vulnerability-detection module was configured to retry a failing feed do
 ## Prevention / Lessons
 
 - A resource symptom (disk full) doesn't necessarily mean a resource problem (need more disk/RAM) it's worth ruling out a runaway process before reaching for a hardware upgrade.
-- `docker volume ls -f dangling=true` is not fully reliable — it flagged actively-mounted volumes as unused. Always verify with `docker inspect <container>` against every relevant container before deleting anything it flags.
-- Shell glob expansion happens *before* `sudo` takes effect — `sudo du /root-owned-path/*` can silently fail to match anything if the invoking user's shell can't read the directory to expand the glob. Wrapping the whole command in `sudo bash -c '...'` avoids this.
+- `docker volume ls -f dangling=true` is not fully reliable it flagged actively-mounted volumes as unused. Always verify with `docker inspect <container>` against every relevant container before deleting anything it flags.
+- Shell glob expansion happens *before* `sudo` takes effect `sudo du /root-owned-path/*` can silently fail to match anything if the invoking user's shell can't read the directory to expand the glob. Wrapping the whole command in `sudo bash -c '...'` avoids this.
 - A configuration change that looks correct on disk and inside a running container is not proof it's actually been applied some daemons don't fully re-read all settings on an in-place `restart`. Confirm via runtime logs, and prefer a full container recreate when a setting genuinely needs to change process behavior.
 - `ps aux` inside a container is not always the right tool to check whether a specific feature is active some modules (like this one) run as internal threads inside a parent daemon rather than as separate OS processes. Application-level logs are the more reliable signal.
