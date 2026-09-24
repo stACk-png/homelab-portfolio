@@ -41,7 +41,7 @@ Five other demo accounts in the indexer (`kibanaro`, `logstash`, `readall`, `sna
 
 ## Access
 
-`https://<tailscale-ip>:8443`, over Tailscale only. Not exposed to the internet. Browser will complain about the certificate — that's expected, it's signed by Wazuh's own internal CA, not a public one.
+`https://<tailscale-ip>:8443`, over Tailscale only. Not exposed to the internet. Browser will complain about the certificate that's expected, it's signed by Wazuh's own internal CA, not a public one.
 
 ## Problems I've run into
 
