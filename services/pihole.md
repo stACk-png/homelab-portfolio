@@ -2,11 +2,11 @@
 
 ## What it is
 
-DNS-level ad and tracker blocking, running on a Raspberry Pi 4 — separate hardware from the main EliteDesk/Proxmox box.
+DNS-level ad and tracker blocking, running on a Raspberry Pi 4 separate hardware from the main EliteDesk/Proxmox box.
 
 ## Why it's on its own hardware
 
-Mostly just how it started out — the Pi was already sitting around, and DNS is the kind of thing you don't want going down because something else on the same machine crashed. Keeping it on separate hardware means a Docker restart or a Proxmox reboot doesn't take DNS down with it.
+Mostly just how it started out the Pi was already sitting around, and DNS is the kind of thing you don't want going down because something else on the same machine crashed. Keeping it on separate hardware means a Docker restart or a Proxmox reboot doesn't take DNS down with it.
 
 ## Status
 
