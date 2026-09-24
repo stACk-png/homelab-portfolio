@@ -21,13 +21,13 @@ This showed a completely different picture: `used` was around 3.3-3.4 GiB, `avai
 
 ## Root Cause
 
-Proxmox's memory percentage reflects total memory the guest OS has touched, including anything Linux is using for disk cache — and Linux aggressively grabs spare RAM for caching because it's free performance, not because it needs to keep it. That cached memory shows up as "used" from Proxmox's point of view, but it's instantly reclaimable the moment something else actually needs it. `free -h` inside the VM breaks this apart explicitly (`used` vs `buff/cache` vs `available`), which is why it told a different story than the outside view.
+Proxmox's memory percentage reflects total memory the guest OS has touched, including anything Linux is using for disk cache and Linux aggressively grabs spare RAM for caching because it's free performance, not because it needs to keep it. That cached memory shows up as "used" from Proxmox's point of view, but it's instantly reclaimable the moment something else actually needs it. `free -h` inside the VM breaks this apart explicitly (`used` vs `buff/cache` vs `available`), which is why it told a different story than the outside view.
 
 The real signal for actual memory pressure is `available` shrinking toward zero **and** swap usage climbing at the same time neither was happening here.
 
 ## Fix
 
-No fix needed — there was no actual problem. I just stopped treating Proxmox's dashboard percentage as the ground truth and used `free -h` inside the guest instead.
+No fix needed there was no actual problem. I just stopped treating Proxmox's dashboard percentage as the ground truth and used `free -h` inside the guest instead.
 
 ## Prevention / Lessons
 
