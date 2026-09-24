@@ -2,7 +2,7 @@
 
 ## What it is
 
-A web UI for managing Docker — containers, images, volumes, networks — without typing every command by hand.
+A web UI for managing Docker containers, images, volumes, networks without typing every command by hand.
 
 ## Why I set it up
 
