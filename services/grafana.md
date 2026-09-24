@@ -6,7 +6,7 @@ The dashboard layer on top of Prometheus. Prometheus collects the numbers, Grafa
 
 ## Why I set it up
 
-Same reason as Prometheus, really — a real dashboard is a lot faster to glance at than SSHing in and running commands every time I want to check on something.
+Same reason as Prometheus, really a real dashboard is a lot faster to glance at than SSHing in and running commands every time I want to check on something.
 
 ## Notes
 
