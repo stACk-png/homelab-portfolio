@@ -35,7 +35,7 @@ A secondary issue surfaced during recovery: the private key file itself was acci
 
 ## Prevention / Lessons
 
-- SSH's "server accepts key" client-side log line indicates the server's *willingness* to accept that key, not that authentication has completed — the actual signature step is a separate point of failure worth checking independently (`journalctl -u ssh -f` on the server, watching for `[preauth]` closures).
-- Desktop keyring auto-fill for SSH passphrases can fail *silently* a wrong cached value doesn't throw a visible error, it just prevents the agent from producing a signature, which looks identical to a network problem.
+- SSH's server accepts key client-side log line indicates the server's willingness to accept that key, not that authentication has completed the actual signature step is a separate point of failure worth checking independently (`journalctl -u ssh -f` on the server, watching for `[preauth]` closures).
+- Desktop keyring auto-fill for SSH passphrases can fail silently a wrong cached value doesn't throw a visible error, it just prevents the agent from producing a signature, which looks identical to a network problem.
 - When a GUI credential manager groups a cached secret and its underlying key file under one visual entry, deleting the secret can unintentionally delete the key too. Verify what's about to be deleted before confirming.
 - Always verify key identity by fingerprint (`ssh-keygen -lf`) when troubleshooting multi-key setups comparing long public key strings by eye is unreliable.
