@@ -37,6 +37,12 @@ Caddy         Grafana/Prometheus   Vaultwarden      Wazuh (manager,
 
 I access everything remotely over Tailscale, usually from my laptop tethered to my phone. That remote-access setup actually caused one of the trickier problems I ran into see the SSH incident below.
 
+## Red/blue team lab
+
+The security side of this is building toward a lab where I can run intentionally vulnerable machines, attack them, and watch the attacks land in Wazuh — without any risk of a compromised box touching my real network.
+
+- **[Isolated Lab Network](lab/isolated-network.md)** — a sealed-off network segment (`10.10.10.0/24`, no uplink) for vulnerable targets, with an OPNsense firewall enforcing default-deny containment, a Lin.Security target monitored by a Wazuh agent, and remote attack access over a Tailscale subnet router that's deliberately one-directional. This is the write-up of how it's built and what broke along the way.
+
 ## Incidents
 
 These are writeups of actual problems I ran into and how I tracked them down. I'm keeping these separate from the service docs because they tell the "how I actually solved it" story, not just how something is configured.
@@ -52,4 +58,4 @@ Proxmox VE, Docker, Tailscale, Caddy, Wazuh, Grafana, Prometheus, Vaultwarden, P
 
 ## Status
 
-Still actively working on this. Right now I'm setting up SCA and FIM in Wazuh and adding more agents.
+Still actively working on this. The isolated red/blue lab is up — a vulnerable target is deployed, monitored by a Wazuh agent, and reachable remotely for attacks while staying contained. Next up is actually running attacks against it and writing detection rules for what the default ruleset misses.
